@@ -1,13 +1,15 @@
-import Logo from "@/assets/logo.png";
-import HelloWorld from "@/components/HelloWorld/HelloWorld";
+import { useState } from "react";
 
 import styles from "./App.module.css";
+import Login from "./components/Login/Login";
+import Products from "./components/Products/Products";
 
 export default function App() {
+  const [isLoggedin, setIsLoggedin] = useState<boolean>(false);
+
   return (
     <main className={styles.main}>
-      <img className={styles.logo} alt="React logo" width="400px" src={Logo} />
-      <HelloWorld msg="Hello React + TypeScript + Vite" />
+      {!isLoggedin ? <Login loginFlagHandler={setIsLoggedin} /> : <Products />}
     </main>
   );
 }
