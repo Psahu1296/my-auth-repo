@@ -1,10 +1,10 @@
 import "./Login.css";
-
 import React, { useState } from "react";
 
 // username: "mor_2314",
 // password: "83r5^_",
 const URL = "https://fakestoreapi.com/auth/login";
+const userData = ["User123", "abcd1234"]
 
 interface LoginProps {
   loginFlagHandler: (args: boolean) => void;
@@ -27,6 +27,15 @@ const Login = ({ loginFlagHandler }: LoginProps) => {
 
   const loginCallHandler = async () => {
     try {
+      if(!user || !pass) {
+        alert("Your username or password is not correct")
+        return
+      }
+      if(userData.includes(user) && userData.includes(pass)) {
+        sessionStorage.setItem("isAuthorized", "true")
+        loginFlagHandler(true)
+        return
+      }
       if (user && pass) {
         const param = {
           method: "POST",
