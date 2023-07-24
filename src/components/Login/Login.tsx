@@ -1,57 +1,94 @@
 import "./Login.css";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 
 // username: "mor_2314",
 // password: "83r5^_",
 const URL = "https://fakestoreapi.com/auth/login";
-const userData = ["User123", "abcd1234"]
+const userData = ["User123", "abcd1234"];
 
 interface LoginProps {
   loginFlagHandler: (args: boolean) => void;
 }
 
+enum ActionType  {
+USERNAME,
+PASSWORD,
+ERROR
+}
+interface StateInterface {
+username: string,
+password: string,
+error: string
+}
+type CounterAction =
+  | { type: ActionType.USERNAME, payload: string }
+  | { type: ActionType.PASSWORD, payload: string }
+  | { type: ActionType.ERROR, payload: string };
+
+const initialState: StateInterface = {
+  username: "",
+  password: "",
+  error: "",
+};
+
+
+
+export const userReducer = (initialState:StateInterface, action:CounterAction): StateInterface => {
+  switch(action.type) {
+    case ActionType.USERNAME:
+      return {...initialState, username: action.payload}
+    case ActionType.PASSWORD:
+      return {...initialState, password: action.payload}
+    case ActionType.ERROR:
+      return {...initialState, error: action.payload}
+    default:
+      return initialState
+  }
+} 
 const Login = ({ loginFlagHandler }: LoginProps) => {
-  const [user, setUser] = useState<string>("");
-  const [pass, setPass] = useState<string>("");
+  const [state, dispatch] = useReducer(userReducer, initialState);
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
     type: string
   ) => {
+    if (state.error) {
+      dispatch({type: ActionType.ERROR, payload: ""});
+    }
     if (type === "user") {
-      setUser(e.target.value);
+      dispatch({type: ActionType.USERNAME , payload: e.target.value});
     } else if (type === "pass") {
-      setPass(e.target.value);
+      dispatch({type: ActionType.PASSWORD , payload: e.target.value});
     }
   };
 
   const loginCallHandler = async () => {
     try {
-      if(!user || !pass) {
-        alert("Your username or password is not correct")
-        return
+      if (!state.username || !state.password) {
+        dispatch({type: ActionType.ERROR, payload: "Your username or password must be incorrect"});
+        return;
       }
-      if(userData.includes(user) && userData.includes(pass)) {
-        sessionStorage.setItem("isAuthorized", "true")
-        loginFlagHandler(true)
-        return
-      }
-      if (user && pass) {
-        const param = {
-          method: "POST",
-          body: JSON.stringify({
-            password: pass,
-            username: user,
-          }),
+      if (state.username && state.password) {
+        const userData = {
+          username: state.username,
+          password: state.password,
         };
-        const response = await fetch(URL, param);
+        const response = await fetch(URL, {
+          method: "POST",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(userData),
+        });
         const data = await response.json();
-        console.log("data=>>", data);
+        sessionStorage.setItem("isAuthorized", data.token);
         loginFlagHandler(true);
       }
     } catch (err) {
       console.log("Error=>>", err);
       loginFlagHandler(false);
+      dispatch({type: ActionType.ERROR, payload: "Something went wrong!"});
     }
   };
   return (
@@ -68,7 +105,7 @@ const Login = ({ loginFlagHandler }: LoginProps) => {
           Sign In
         </h1>
         <div className="input_wrapper">
-          <label data-testid="user-label" htmlFor="username">
+          <label id="username" data-testid="user-label" htmlFor="username">
             Username
           </label>
           <input
@@ -76,12 +113,12 @@ const Login = ({ loginFlagHandler }: LoginProps) => {
             type="text"
             placeholder="Username"
             className="input"
-            value={user}
+            value={state.username}
             onChange={e => changeHandler(e, "user")}
           />
         </div>
         <div className="input_wrapper">
-          <label data-testid="password-label" htmlFor="password">
+          <label id="password" data-testid="password-label" htmlFor="password">
             Password
           </label>
           <input
@@ -89,10 +126,13 @@ const Login = ({ loginFlagHandler }: LoginProps) => {
             type="password"
             placeholder="Password"
             className="input"
-            value={pass}
+            value={state.password}
             onChange={e => changeHandler(e, "pass")}
           />
         </div>
+        {state.error && <span data-testid="error-msg" className="error-text">
+          *{state.error}
+        </span>}
         <button data-testid="submit-btn" type="submit" className="sign-in-btn">
           Sign in
         </button>

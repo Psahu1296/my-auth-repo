@@ -22,7 +22,7 @@ export const handlers = [
           category: "test",
           price: "free",
           description: "test data",
-          image: "",
+          image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
         },
       ])
     );

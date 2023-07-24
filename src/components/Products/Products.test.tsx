@@ -8,5 +8,6 @@ describe("<Products/>", () => {
     await waitFor(() => {
       expect(screen.getByTestId("product-id")).toBeInTheDocument();
     });
+    expect(screen.getByTestId("products-page")).toMatchSnapshot()
   });
 });

@@ -18,9 +18,10 @@ const Products = () => {
     fetch("https://fakestoreapi.com/products")
       .then(res => res.json())
       .then(json => setProducts(json));
-  });
+  }, []);
+
   return (
-    <div className="main-wrapper">
+    <div className="main-wrapper" data-testid="products-page">
       {products.map((product: ProductParams) => (
         <Product key={product.id} {...product} />
       ))}

@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Products/> Api called properly 1`] = `
+<div
+  class="main-wrapper"
+  data-testid="products-page"
+>
+  <div
+    class="wrapper"
+    data-testid="product-id"
+  >
+    <span
+      class="title"
+      data-testid="product-title"
+    >
+      Title: 
+      my product test
+    </span>
+    <span>
+      RS :
+      free
+    </span>
+    <span>
+      Category: 
+      test
+    </span>
+    <img
+      alt="product"
+      class="product-image"
+      src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+    />
+  </div>
+</div>
+`;

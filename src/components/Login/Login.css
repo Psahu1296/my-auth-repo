@@ -77,3 +77,8 @@ button:hover {
 button:active {
     transform: scale(1);
 }
+
+.error-text {
+    font-size: 12px;
+    color: #9a162a;
+}
