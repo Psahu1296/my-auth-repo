@@ -26,13 +26,11 @@
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 15px;
-    /* letter-spacing: 18px; */
 }
 label {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 8px;
-    /* letter-spacing: 12px; */
 }
 
 input {
@@ -71,7 +69,6 @@ button {
     align-self: center;
 }
 button:hover {
-    /* background-color: #03a2a2; */
     transform: scale(1.08);
 }
 button:active {

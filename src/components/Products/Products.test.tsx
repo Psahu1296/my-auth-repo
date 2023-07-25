@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 
-import Products from "./Products";
+import { Products } from "@/components";
 
 describe("<Products/>", () => {
   it("Api called properly", async () => {
@@ -8,6 +8,6 @@ describe("<Products/>", () => {
     await waitFor(() => {
       expect(screen.getByTestId("product-id")).toBeInTheDocument();
     });
-    expect(screen.getByTestId("products-page")).toMatchSnapshot()
+    expect(screen.getByTestId("products-page")).toMatchSnapshot();
   });
 });

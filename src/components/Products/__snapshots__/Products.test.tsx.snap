@@ -16,11 +16,15 @@ exports[`<Products/> Api called properly 1`] = `
       Title: 
       my product test
     </span>
-    <span>
+    <span
+      data-testid="product-price"
+    >
       RS :
       free
     </span>
-    <span>
+    <span
+      data-testid="product-category"
+    >
       Category: 
       test
     </span>

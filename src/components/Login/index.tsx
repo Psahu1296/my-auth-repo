@@ -1,37 +1,16 @@
 import "./Login.css";
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
+import { ActionType, CounterAction, LoginProps, StateInterface } from "./LoginTypes";
 
 // username: "mor_2314",
 // password: "83r5^_",
 const URL = "https://fakestoreapi.com/auth/login";
-const userData = ["User123", "abcd1234"];
-
-interface LoginProps {
-  loginFlagHandler: (args: boolean) => void;
-}
-
-enum ActionType  {
-USERNAME,
-PASSWORD,
-ERROR
-}
-interface StateInterface {
-username: string,
-password: string,
-error: string
-}
-type CounterAction =
-  | { type: ActionType.USERNAME, payload: string }
-  | { type: ActionType.PASSWORD, payload: string }
-  | { type: ActionType.ERROR, payload: string };
 
 const initialState: StateInterface = {
   username: "",
   password: "",
   error: "",
 };
-
-
 
 export const userReducer = (initialState:StateInterface, action:CounterAction): StateInterface => {
   switch(action.type) {
